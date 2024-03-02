@@ -36,7 +36,7 @@ app.post('/', (req, res) => {
                     })
                         .then(() => console.log('Message sent!'))
                         .catch((err) => console.log(err));
-                }
+                } 
             })
 
             return res.status(200).send('Message sent!');

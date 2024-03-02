@@ -48,23 +48,49 @@ const TeamChannelHeader = ({ setIsEditing }) => {
     const { channel, watcher_count } = useChannelStateContext();
     const { client } = useChatContext();
     const{generated}=useGenerate()
-    async function HandleMeet() {
-      const meetingObject = {
-          "topic": "Meeting 100",
-          "start_time": new Date().toISOString(), // Set start time to current time
-          "type": 2,
-          "duration": 60,
-          "timezone": "Asia/Kolkata",
-          "agenda": "Project updates"
-      };
-      
-      try {
-          const response = await axios.get('http://localhost:3005/createmeeting', meetingObject);
-          console.log('Data from endpoint:', response.data);
-      } catch (error) {
-          console.error('Error fetching data:', error);
-      }
+
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text)
+          .then(() => {
+              console.log('Text copied to clipboard');
+              alert("copied to clipboard");
+          })
+          .catch(err => {
+              console.error('Failed to copy text: ', err);
+          });
   }
+  async function HandleMeet() {
+    const zoomMeetingID = Math.floor(Math.random() * 1000000000); // Generate a random meeting ID
+    const zoomPassword = Math.random().toString(36).slice(2, 10); // Generate a random password
+    
+    const zoomLink = `https://us05web.zoom.us/j/${zoomMeetingID}?pwd=${zoomPassword}#success`;
+    
+    copyToClipboard(zoomLink);
+}
+
+    // async function HandleMeet() {
+      
+    // console.log("text")
+    // copyToClipboard("https://us05web.zoom.us/s/87676765740?pwd=1cT03swCLUanFWjoDSN1PFBGyUibGD.1#success");
+    // console.log("text")
+    // }
+  //     const meetingObject = {
+  //         "topic": "Meeting 100",
+  //         "start_time": new Date().toISOString(), // Set start time to current time
+  //         "type": 2,
+  //         "duration": 60,
+  //         "timezone": "Asia/Kolkata",
+  //         "agenda": "Project updates"
+  //     };
+      
+  //     try {
+  //         const response = await axios.get('http://localhost:3005/createmeeting', meetingObject);
+  //         console.log('Data from endpoint:', response.data);
+  //     } catch (error) {
+  //         console.error('Error fetching data:', error);
+  //     }
+  
     const MessagingHeader = () => {
       const members = Object.values(channel.state.members).filter(({ user }) => user.id !== client.userID);
       const additionalMembers = members.length - 3;
